@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 function Headers() {
     return ( 
         <>
@@ -7,11 +9,11 @@ function Headers() {
                 NotaApp
                 </h1>
                 <nav className="flex gap-4 text-sm md:text-base">
-                <a href="inicio" className="transition-colors hover:text-blue-400">inicio</a>
-                <a href="new" className="transition-colors hover:text-blue-400">Nueva Nota</a>
-                <a href="notes" className="transition-colors hover:text-blue-400">Notas</a>
-                <a href="login" className="transition-colors hover:text-blue-400">Inicio de Sesión</a>
-                <a href="register" className="transition-colors hover:text-blue-400">Registro</a>
+                    <Link to="/" className="transition-colors hover:text-blue-400">inicio</Link>
+                    <Link to="/nueva" className="transition-colors hover:text-blue-400">Nueva Nota</Link>
+                    <Link to="/mis-notas" className="transition-colors hover:text-blue-400">Notas</Link>
+                    <Link to="/login" className="transition-colors hover:text-blue-400">Inicio de Sesión</Link>
+                    <Link to="/register" className="transition-colors hover:text-blue-400">Registro</Link>
             </nav>
       </header>
         </>
