@@ -13,7 +13,7 @@ function Headers() {
                     <Link to="/nueva" className="transition-colors hover:text-blue-400">Nueva Nota</Link>
                     <Link to="/mis-notas" className="transition-colors hover:text-blue-400">Notas</Link>
                     <Link to="/login" className="transition-colors hover:text-blue-400">Inicio de Sesión</Link>
-                    <Link to="/register" className="transition-colors hover:text-blue-400">Registro</Link>
+                    <Link to="/registro" className="transition-colors hover:text-blue-400">Registro</Link>
             </nav>
       </header>
         </>

@@ -1,4 +1,12 @@
+import { useNavigate } from "react-router";
+
 function CrearNota() {
+    const navegation = useNavigate()
+
+    const handleSave = () => {
+        navegation("/mis-notas")
+    }
+
     return ( 
         <>
             <div className="mb-8 border-b border-gray-200 pb-4">
@@ -65,7 +73,7 @@ function CrearNota() {
                     <div className="flex justify-end pt-2">
                         <button 
                             type="submit" 
-                            className="flex items-center gap-2 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:scale-[1.02] active:scale-95 cursor-pointer"
+                            className="flex items-center gap-2 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:scale-[1.02] active:scale-95 cursor-pointer" onClick={handleSave}
                         >
                             <span>💾</span> Guardar Nota
                         </button>
