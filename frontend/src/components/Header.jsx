@@ -9,7 +9,7 @@ function Headers() {
                 NotaApp
                 </h1>
                 <nav className="flex gap-4 text-sm md:text-base">
-                    <Link to="/" className="transition-colors hover:text-blue-400">inicio</Link>
+                    <Link to="/inicio" className="transition-colors hover:text-blue-400">inicio</Link>
                     <Link to="/nueva" className="transition-colors hover:text-blue-400">Nueva Nota</Link>
                     <Link to="/mis-notas" className="transition-colors hover:text-blue-400">Notas</Link>
                     <Link to="/login" className="transition-colors hover:text-blue-400">Inicio de Sesión</Link>

@@ -13,6 +13,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />} >
         <Route index element={<Info />} />
+        <Route path="inicio" element={<Info />} />
 
         <Route path="mis-notas" element={<Notas />} />
         <Route path="nueva" element={<CrearNota />} />
