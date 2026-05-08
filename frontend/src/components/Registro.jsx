@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import ErrorMessage from "./compartidos/ModalNecesario";
+import ErrorMessage from "./compartidos/ModalError.Components";
 
 function Registro() {
     const [nombre, setNombre] = useState('');
@@ -27,12 +27,12 @@ function Registro() {
 
         if (Object.keys(listaErrores).length > 0) {
             setErrores(listaErrores);
-            console.log("❌ Errores encontrados:", listaErrores);
+            // console.log("❌ Errores encontrados:", listaErrores);
             return;
         }
 
         setErrores({});
-        console.log("✅ Datos listos:", { nombre, email, password });
+        // console.log("✅ Datos listos:", { nombre, email, password });
         navigate('/login');
     }
     

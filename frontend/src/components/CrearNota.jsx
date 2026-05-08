@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router"; // Asegúrate que sea react-router-dom
+import ErrorMessage from "./compartidos/ModalError.Components";
 
 function CrearNota() {
     const navigate = useNavigate(); // Cambiado a navigate
@@ -9,9 +10,12 @@ function CrearNota() {
     const [contenido, setContenido] = useState("");
     const [prioridad, setPrioridad] = useState("low");
     const [estado, setEstado] = useState("publico");
+    const [ errores, setErrores ] = useState({});
+
 
     const handleSave = (e) => {
         e.preventDefault(); // Importante: evita que la página se recargue
+        let listaErrores = {};
 
         const nuevaNota = { 
             id: Date.now(), // Añadimos un ID para que React sea feliz
@@ -20,13 +24,20 @@ function CrearNota() {
             prioridad, 
             estado 
         };
+
+        if (!titulo.trim() && !contenido.trim()) listaErrores.general = "El título o el contenido no pueden estar vacíos";
         
+
+        if (Object.keys(listaErrores).length > 0) {
+            setErrores(listaErrores);
+            return;
+        }
 
         // Aquí guardarías en tu lista o base de datos
         console.log("Nota guardada:", nuevaNota);
         
         // Si quieres navegar después de guardar:
-        // navigate("/mis-notas");
+        navigate("/mis-notas");
     }
 
     return ( 
@@ -93,6 +104,8 @@ function CrearNota() {
                         onChange={(e) => setContenido(e.target.value)}
                         required
                     ></textarea>
+
+                    <ErrorMessage mensaje={errores.general} />
                 </div>
 
                 <div className="flex justify-end pt-2">
