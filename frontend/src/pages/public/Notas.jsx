@@ -1,7 +1,9 @@
 import CardNota from "../../components/CardNota";
+import leerMemory from "../../memory/leer.memory";
 function Notas() {
+  const notasPrueba = leerMemory();
     // Simulando datos que vendrán de tu base de datos o estado
-  const notasPrueba = [
+  /*const notasPrueba = [
     {
       id: 1,
       titulo: "Que es Node.js",
@@ -34,7 +36,7 @@ function Notas() {
       estado: "Privado",
       fecha: "Hace 3 días"
     }
-  ];
+  ];*/
     return ( 
         <>
             <div className="max-w-4xl mx-auto h-full rounded-xl flex flex-col items-center">

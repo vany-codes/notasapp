@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router"; // Asegúrate que sea react-router-dom
 import ErrorMessage from "../../components/compartidos/ModalError.Components";
+import notasMemory from "../../memory/nota.memory";
 
 function CrearNota() {
     const navigate = useNavigate(); // Cambiado a navigate
@@ -25,7 +26,7 @@ function CrearNota() {
             estado 
         };
 
-        if (!titulo.trim() && !contenido.trim()) listaErrores.general = "El título o el contenido no pueden estar vacíos";
+        if (!titulo.trim() || !contenido.trim()) listaErrores.general = "El título o el contenido no pueden estar vacíos";
         
 
         if (Object.keys(listaErrores).length > 0) {
@@ -35,6 +36,7 @@ function CrearNota() {
 
         // Aquí guardarías en tu lista o base de datos
         console.log("Nota guardada:", nuevaNota);
+        notasMemory({ nota: nuevaNota });
         
         // Si quieres navegar después de guardar:
         navigate("/mis-notas");
@@ -111,7 +113,7 @@ function CrearNota() {
                 <div className="flex justify-end pt-2">
                     <button 
                         type="submit" 
-                        className="flex items-center gap-2 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:scale-[1.02] active:scale-95 cursor-pointer" onClick={handleSave}
+                        className="flex items-center gap-2 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:scale-[1.02] active:scale-95 cursor-pointer"
                     >
                         <span>💾</span> Guardar Nota
                     </button>
