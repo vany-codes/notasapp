@@ -9,7 +9,7 @@ function CrearNota() {
     // Corregido: Uso de [] en lugar de {}
     const [titulo, setTitulo] = useState("");
     const [contenido, setContenido] = useState("");
-    const [prioridad, setPrioridad] = useState("low");
+    const [prioridad, setPrioridad] = useState("Baja");
     const [estado, setEstado] = useState("publico");
     const [ errores, setErrores ] = useState({});
 
@@ -75,9 +75,9 @@ function CrearNota() {
                             value={prioridad}
                             onChange={(e) => setPrioridad(e.target.value)}
                         >
-                            <option value="low">🟢 Baja</option>
-                            <option value="medium">🟡 Media</option>
-                            <option value="high">🔴 Alta</option>
+                            <option value="Baja">🟢 Baja</option>
+                            <option value="Media">🟡 Media</option>
+                            <option value="Alta">🔴 Alta</option>
                         </select>
                     </div>
                     
