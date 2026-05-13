@@ -1,4 +1,4 @@
-import CardNota from "./CardNota";
+import CardNota from "../../components/CardNota";
 function Notas() {
     // Simulando datos que vendrán de tu base de datos o estado
   const notasPrueba = [

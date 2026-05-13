@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router"
-import Layout from "./components/Layout"
-import Info from "./components/Info"
-import Notas from "./components/Notas"
-import CrearNota from "./components/CrearNota"
-import Registro from "./components/Registro"
-import Login from "./components/Login"
+import Layout from "./pages/Layout"
+import Info from "./pages/public/Info"
+import Notas from "./pages/public/Notas"
+import CrearNota from "./pages/public/CrearNota"
+import Registro from "./pages/priv/Registro"
+import Login from "./pages/priv/Login"
 
 function App() {
 

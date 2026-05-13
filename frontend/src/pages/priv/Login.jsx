@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import ErrorMessage from "./compartidos/ModalError.Components";
+import ErrorMessage from "../../components/compartidos/ModalError.Components";
 
 function Login() {
     const [email, setEmail] = useState('');

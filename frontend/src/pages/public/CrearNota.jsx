@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router"; // Asegúrate que sea react-router-dom
-import ErrorMessage from "./compartidos/ModalError.Components";
+import ErrorMessage from "../../components/compartidos/ModalError.Components";
 
 function CrearNota() {
     const navigate = useNavigate(); // Cambiado a navigate

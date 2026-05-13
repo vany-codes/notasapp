@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-function Headers() {
+function Header() {
     return ( 
         <>
             <header className="w-full max-w-5xl mx-auto bg-gray-800 text-white p-4 flex justify-between items-center rounded-b-lg shrink-0 shadow-lg">
@@ -20,4 +20,4 @@ function Headers() {
      );
 }
 
-export default Headers;
+export default Header;
