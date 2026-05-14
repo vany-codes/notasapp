@@ -1,4 +1,6 @@
+
 const CardNota = ({ titulo, contenido, prioridad, estado, fecha }) => {
+  
   // Mapeo de colores según la prioridad
   const configPrioridad = {
     Alta: {
@@ -45,6 +47,7 @@ const CardNota = ({ titulo, contenido, prioridad, estado, fecha }) => {
         </div>
         <span className="text-[11px] text-gray-400 font-medium">{fecha}</span>
       </div>
+      
     </div>
   );
 };
