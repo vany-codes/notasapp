@@ -4,41 +4,7 @@ import leerMemory from "../../memory/leer.memory";
 function Notas() {
   const navegar = useNavigate();
   const notasPrueba = leerMemory();
-    // Simulando datos que vendrán de tu base de datos o estado
-  /*const notasPrueba = [
-    {
-      id: 1,
-      titulo: "Que es Node.js",
-      contenido: "Node.js es un entorno de ejecución de JavaScript construido sobre el motor V8 de Chrome. Permite ejecutar código JavaScript en el servidor...",
-      prioridad: "Media",
-      estado: "Público",
-      fecha: "Hace 2 min"
-    },
-    {
-      id: 2,
-      titulo: "Que es JavaScript",
-      contenido: "JavaScript es un lenguaje de programación interpretado, dialecto del estándar ECMAScript. Orientado a objetos y multiparadigma.",
-      prioridad: "Alta",
-      estado: "Público",
-      fecha: "Ayer"
-    },
-    {
-      id: 3,
-      titulo: "Que es React",
-      contenido: "Biblioteca de JavaScript para construir interfaces de usuario. Desarrollada por Facebook para crear SPAs eficientes.",
-      prioridad: "Baja",
-      estado: "Público",
-      fecha: "Hace 1 hora"
-    },
-    {
-      id: 4,
-      titulo: "Que es Tailwind CSS",
-      contenido: "Framework de CSS que proporciona clases utilitarias para construir diseños personalizados directamente en el HTML.",
-      prioridad: "Baja",
-      estado: "Privado",
-      fecha: "Hace 3 días"
-    }
-  ];*/
+   
     return ( 
         <>
             <div className="max-w-4xl mx-auto h-full rounded-xl flex flex-col items-center">

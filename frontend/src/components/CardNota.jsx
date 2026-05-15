@@ -1,6 +1,17 @@
+import { useState } from "react";
+import ModalNota from "./ModalNota";
 
 const CardNota = ({ titulo, contenido, prioridad, estado, fecha }) => {
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   // Mapeo de colores según la prioridad
   const configPrioridad = {
     Alta: {
@@ -23,7 +34,7 @@ const CardNota = ({ titulo, contenido, prioridad, estado, fecha }) => {
   const estilo = configPrioridad[prioridad] || configPrioridad.Baja;
 
   return (
-    <div className={`w-full my-3 p-5 bg-white rounded-xl shadow-sm hover:shadow-md border-l-6 ${estilo.border} cursor-pointer transition-all duration-300 transform hover:-translate-y-1 group`}>
+    <div className={`w-full my-3 p-5 bg-white rounded-xl shadow-sm hover:shadow-md border-l-6 ${estilo.border} cursor-pointer transition-all duration-300 transform hover:-translate-y-1 group`} onClick={handleOpenModal}>
       
       <div className="flex justify-between items-start mb-3">
         <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
@@ -48,6 +59,7 @@ const CardNota = ({ titulo, contenido, prioridad, estado, fecha }) => {
         <span className="text-[11px] text-gray-400 font-medium">{fecha}</span>
       </div>
       
+      <ModalNota isOpen={isModalOpen} onClose={handleCloseModal} titulo={titulo} contenido={contenido} prioridad={prioridad} estado={estado} />
     </div>
   );
 };
