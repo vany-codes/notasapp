@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
+import Login from "../pages/Login";
 import Notas from "../pages/Notas";
+import Registro from "../pages/Registro";
 import NotaFormulario from "./share/NotaForm";
 
 function Main() {
@@ -15,7 +17,9 @@ function Main() {
         <main className="flex-1 flex items-center justify-center px-6 py-12">
             {/*<Inicio />*/}
             {/*<Notas></Notas>*/}
-            <NotaFormulario nota={notaPrueba} />
+            {/*<NotaFormulario nota={notaPrueba} />*/}
+            {/*<Registro />*/}
+            <Login />
         </main>
      );
 }
