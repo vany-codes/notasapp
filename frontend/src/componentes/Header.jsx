@@ -23,7 +23,7 @@ function Header() {
                                     href="#"
                                     className="px-4 py-2 rounded-full text-gray-300 hover:text-white hover:bg-gray-800 transition duration-300"
                                 >
-                                    Acerca de
+                                    Notas
                                 </a>
                             </li>
 
@@ -32,7 +32,25 @@ function Header() {
                                     href="#"
                                     className="px-4 py-2 rounded-full text-gray-300 hover:text-white hover:bg-gray-800 transition duration-300"
                                 >
-                                    Contacto
+                                    Crear nota
+                                </a>
+                            </li>
+
+                            <li>
+                                <a
+                                    href="#"
+                                    className="px-4 py-2 rounded-full text-gray-300 hover:text-white hover:bg-gray-800 transition duration-300"
+                                >
+                                    Registro
+                                </a>
+                            </li>
+
+                            <li>
+                                <a
+                                    href="#"
+                                    className="px-4 py-2 rounded-full text-gray-300 hover:text-white hover:bg-gray-800 transition duration-300"
+                                >
+                                    Login
                                 </a>
                             </li>
                         </ul>

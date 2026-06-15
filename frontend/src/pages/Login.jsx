@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { Mail, Lock, LogIn } from "lucide-react";
 import { useState } from "react";
-import LabelForm from "../componentes/share/LabelForm"; // 1. Importación añadida
-import InputForm from "../componentes/share/InputForm"; // 2. Importación añadida
+import LabelForm from "../componentes/share/LabelForm";
+import InputForm from "../componentes/share/InputForm";
 
 function Login() {
     const [email, setEmail] = useState("");
