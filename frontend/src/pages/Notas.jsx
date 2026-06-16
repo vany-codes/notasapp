@@ -10,7 +10,7 @@ import {
 
 import notas from "../datos/notas";
 
-function Inicio() {
+function Notas() {
   const colorPrioridad = {
     Alta: "bg-red-500/20 text-red-400",
     Media: "bg-yellow-500/20 text-yellow-400",
@@ -114,4 +114,4 @@ function Inicio() {
   );
 }
 
-export default Inicio;
+export default Notas;

@@ -1,6 +1,6 @@
+import { Outlet } from "react-router";
 import Footer from "./Footer";
 import Header from "./Header";
-import Main from "./Main";
 
 function Layout() {
     return (
@@ -10,7 +10,9 @@ function Layout() {
             <Header />
 
             {/* Contenido principal */}
-            <Main />
+            <main className="flex-1 flex items-center justify-center px-6 py-12">
+                <Outlet />
+            </main>
 
             {/* Footer */}
             <Footer />

@@ -1,3 +1,5 @@
+import LinkNav from "./share/LinkNav";
+
 function Header() {
     return (
         <header className="w-full bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
@@ -10,48 +12,23 @@ function Header() {
                     <nav>
                         <ul className="flex gap-3">
                             <li>
-                                <a
-                                    href="#"
-                                    className="px-4 py-2 rounded-full text-gray-300 hover:text-white hover:bg-gray-800 transition duration-300"
-                                >
-                                    Inicio
-                                </a>
+                                <LinkNav to="/" children="Inicio" />
                             </li>
 
                             <li>
-                                <a
-                                    href="#"
-                                    className="px-4 py-2 rounded-full text-gray-300 hover:text-white hover:bg-gray-800 transition duration-300"
-                                >
-                                    Notas
-                                </a>
+                                <LinkNav to="/notas" children="Notas" />
                             </li>
 
                             <li>
-                                <a
-                                    href="#"
-                                    className="px-4 py-2 rounded-full text-gray-300 hover:text-white hover:bg-gray-800 transition duration-300"
-                                >
-                                    Crear nota
-                                </a>
+                                <LinkNav to="/crear-nota" children="Crear nota" />
                             </li>
 
                             <li>
-                                <a
-                                    href="#"
-                                    className="px-4 py-2 rounded-full text-gray-300 hover:text-white hover:bg-gray-800 transition duration-300"
-                                >
-                                    Registro
-                                </a>
+                                <LinkNav to="/registro" children="Registro" />
                             </li>
 
                             <li>
-                                <a
-                                    href="#"
-                                    className="px-4 py-2 rounded-full text-gray-300 hover:text-white hover:bg-gray-800 transition duration-300"
-                                >
-                                    Login
-                                </a>
+                                <LinkNav to="/login" children="Login" />
                             </li>
                         </ul>
                     </nav>
