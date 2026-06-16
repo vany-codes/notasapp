@@ -10,7 +10,7 @@ function Layout() {
             <Header />
 
             {/* Contenido principal */}
-            <main className="flex-1 flex items-center justify-center px-6 py-12">
+            <main className="flex-1 flex items-center justify-center px-6 py-4">
                 <Outlet />
             </main>
 
