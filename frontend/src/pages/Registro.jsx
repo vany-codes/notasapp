@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
-import { User, Mail, Lock, UserPlus } from "lucide-react";
+import { User, Mail, Lock, UserPlus, Navigation } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import LabelForm from "../componentes/share/LabelForm";
 import InputForm from "../componentes/share/InputForm";
+import { crearUsuario } from "../datos/usuario";
 
 function Registro() {
     const [nombre, setNombre] = useState("");
@@ -11,6 +13,7 @@ function Registro() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -47,6 +50,8 @@ function Registro() {
             };
 
             console.log("Usuario registrado:", nuevoUsuario);
+            crearUsuario(nuevoUsuario);
+            navigate("/login");
 
             // Limpiar formulario
             setNombre("");

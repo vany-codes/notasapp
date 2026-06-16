@@ -3,12 +3,16 @@ import { Mail, Lock, LogIn } from "lucide-react";
 import { useState } from "react";
 import LabelForm from "../componentes/share/LabelForm";
 import InputForm from "../componentes/share/InputForm";
+import { useNavigate } from "react-router";
+import { obtenerUsuarios } from "../datos/usuario";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const obtUs = obtenerUsuarios();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,6 +39,7 @@ function Login() {
 
             console.log("Iniciando sesión:", credenciales);
             // Aquí irá tu petición al backend
+
 
         } catch (err) {
             setError("Correo o contraseña incorrectos.");
