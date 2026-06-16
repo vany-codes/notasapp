@@ -8,7 +8,7 @@ import {
   Lock,
 } from "lucide-react";
 
-import notas from "../datos/notas";
+import notas from "../data/notas";
 
 function Notas() {
   const colorPrioridad = {
