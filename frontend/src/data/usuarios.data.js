@@ -1,3 +1,5 @@
 export const registroUs = () => {
-    console.log("Hola")
+    console.log("Hola nuevo")
+
+    
 }

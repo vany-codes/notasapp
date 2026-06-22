@@ -1,6 +1,7 @@
 const LOCAL_STORAGE_USUARIOS_KEY = 'usuarios';
+const LOCAL_STORAGE_SESION_KEY = 'sesionUsuario';
 
-export const obtenerUsuarios = () => {
+const obtenerUsuarios = () => {
     const usuariosJSON = localStorage.getItem(LOCAL_STORAGE_USUARIOS_KEY);
     return usuariosJSON ? JSON.parse(usuariosJSON) : [];
 };
@@ -28,6 +29,17 @@ export const crearUsuario = (usuario) => {
 
 
     return nuevoUsuario;
+};
+
+export const loginUsuario = (email, password) => {
+    const usuarios = obtenerUsuarios();
+    const usuario = usuarios.find(u => u.email === email.trim().toLowerCase() && u.password === password.trim());
+    if (!usuario) {
+        throw new Error("Correo o contraseña incorrectos.");
+    }
+    const registro = { id: usuario.id, nombre: usuario.nombre, email: usuario.email };
+    localStorage.setItem(LOCAL_STORAGE_SESION_KEY, JSON.stringify(registro));
+    return registro;
 };
 
 export const editarUsuario = (id, nombre, email, password) => {
