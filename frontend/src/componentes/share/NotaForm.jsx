@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import { obtenerSesionUsuario } from "../../data/usuario.local";
 import { crearNota } from "../../data/notas.local";
+import { useNavigate } from "react-router";
 
 function NotaFormulario({ nota }) {
     const [titulo, setTitulo] = useState("");
     const [contenido, setContenido] = useState("");
     const [prioridad, setPrioridad] = useState("Baja");
     const [estado, setEstado] = useState("publico");
+    const navegar = useNavigate();
 
     useEffect(() => {
         if (nota) {
@@ -34,6 +36,7 @@ function NotaFormulario({ nota }) {
         crearNota(nuevaNota, usuario);
 
         console.log("Nota guardada:", nuevaNota);
+        navegar("/notas");
 
         // Si es una nueva nota, limpiamos el formulario
         if (!nota) {

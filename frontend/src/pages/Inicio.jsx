@@ -1,4 +1,16 @@
+import { useNavigate } from "react-router";
+
 function Inicio() {
+    const navegar = useNavigate();
+
+    const handleComenzar = () => {
+        navegar("/crear-nota");
+    };
+
+    const handleCrearCuenta = () => {
+        navegar("/registro");
+    };
+    
     return ( 
         <div
                     className="
@@ -103,6 +115,7 @@ function Inicio() {
                                 duration-300
                                 hover:scale-105
                             "
+                            onClick={handleComenzar}
                         >
                             Comenzar
                         </button>
@@ -118,6 +131,7 @@ function Inicio() {
                                 duration-300
                                 hover:scale-105
                             "
+                            onClick={handleCrearCuenta}
                         >
                             Crear cuenta
                         </button>

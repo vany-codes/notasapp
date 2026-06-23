@@ -7,22 +7,20 @@ import {
   Globe,
   Lock,
 } from "lucide-react";
-import { useEffect, useState } from "react";
 import { obtenerSesionUsuario } from "../data/usuario.local";
 import { obtenerNNotas } from "../data/notas.local";
+import { useNavigate } from "react-router";
 
 function Notas() {
-  // eslint-disable-next-line no-unused-vars
-  const [notas, setNotas] = useState([]);
+  const navegar = useNavigate();
 
   const usuario = obtenerSesionUsuario();
+  const notas = obtenerNNotas(usuario);
 
-  const obterNotas = obtenerNNotas(usuario);
-
-  useEffect(() => {
-    setNotas(obterNotas);
-  }, [obterNotas]);
-
+  const handleCrearNota = () => {
+    // Navegar a la página de creación de nota
+    navegar("/crear-nota");
+  }
   
   const colorPrioridad = {
     Alta: "bg-red-500/20 text-red-400",
@@ -49,6 +47,7 @@ function Notas() {
 
         <button
           className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-2xl font-semibold text-white transition hover:scale-105"
+          onClick={handleCrearNota}
         >
           <Plus size={20} />
           Nueva nota

@@ -50,6 +50,10 @@ function Login() {
         }
     };
 
+    const handleRegistroRedirect = () => {
+        navigate("/registro");
+    }
+
     return (
         <div className="min-h-[80vh] flex items-center justify-center px-6 py-10">
             <div className="w-full max-w-md bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-3xl shadow-2xl p-8">
@@ -135,7 +139,7 @@ function Login() {
                 <div className="mt-6 text-center">
                     <p className="text-sm text-gray-400">
                         ¿No tienes una cuenta?{" "}
-                        <button type="button" className="text-blue-400 hover:text-blue-300 font-semibold transition">
+                        <button type="button" className="text-blue-400 hover:text-blue-300 font-semibold transition" onClick={handleRegistroRedirect}>
                             Regístrate
                         </button>
                     </p>
