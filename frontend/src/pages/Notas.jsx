@@ -7,7 +7,7 @@ import {
   Globe,
   Lock,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { obtenerSesionUsuario } from "../data/usuario.local";
 import { obtenerNNotas } from "../data/notas.local";
 
@@ -19,9 +19,9 @@ function Notas() {
 
   const obterNotas = obtenerNNotas(usuario);
 
-  if (obterNotas.length !== notas.length) {
+  useEffect(() => {
     setNotas(obterNotas);
-  }
+  }, [obterNotas]);
 
   
   const colorPrioridad = {
