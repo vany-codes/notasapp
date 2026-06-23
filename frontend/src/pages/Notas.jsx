@@ -7,10 +7,23 @@ import {
   Globe,
   Lock,
 } from "lucide-react";
-
-import notas from "../data/notas";
+import { useState } from "react";
+import { obtenerSesionUsuario } from "../data/usuario.local";
+import { obtenerNNotas } from "../data/notas.local";
 
 function Notas() {
+  // eslint-disable-next-line no-unused-vars
+  const [notas, setNotas] = useState([]);
+
+  const usuario = obtenerSesionUsuario();
+
+  const obterNotas = obtenerNNotas(usuario);
+
+  if (obterNotas.length !== notas.length) {
+    setNotas(obterNotas);
+  }
+
+  
   const colorPrioridad = {
     Alta: "bg-red-500/20 text-red-400",
     Media: "bg-yellow-500/20 text-yellow-400",

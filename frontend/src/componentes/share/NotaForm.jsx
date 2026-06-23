@@ -1,17 +1,19 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
+import { obtenerSesionUsuario } from "../../data/usuario.local";
+import { crearNota } from "../../data/notas.local";
 
 function NotaFormulario({ nota }) {
     const [titulo, setTitulo] = useState("");
     const [contenido, setContenido] = useState("");
-    const [prioridad, setPrioridad] = useState("baja");
+    const [prioridad, setPrioridad] = useState("Baja");
     const [estado, setEstado] = useState("publico");
 
     useEffect(() => {
         if (nota) {
             setTitulo(nota.titulo);
             setContenido(nota.contenido);
-            setPrioridad(nota.prioridad.toLowerCase());
+            setPrioridad(nota.prioridad);
             setEstado(nota.estado);
         }
     }, [nota]);
@@ -25,8 +27,11 @@ function NotaFormulario({ nota }) {
             contenido,
             prioridad,
             estado,
-            fecha: nota?.fecha || new Date().toISOString().split("T")[0],
         };
+
+        const usuario = obtenerSesionUsuario();
+
+        crearNota(nuevaNota, usuario);
 
         console.log("Nota guardada:", nuevaNota);
 
@@ -34,7 +39,7 @@ function NotaFormulario({ nota }) {
         if (!nota) {
             setTitulo("");
             setContenido("");
-            setPrioridad("baja");
+            setPrioridad("Baja");
             setEstado("publico");
         }
     };

@@ -1,10 +1,15 @@
 const LOCAL_STORAGE_USUARIOS_KEY = 'usuarios';
 const LOCAL_STORAGE_SESION_KEY = 'sesionUsuario';
 
-const obtenerUsuarios = () => {
+export const obtenerUsuarios = () => {
     const usuariosJSON = localStorage.getItem(LOCAL_STORAGE_USUARIOS_KEY);
     return usuariosJSON ? JSON.parse(usuariosJSON) : [];
 };
+
+export const obtenerSesionUsuario = () => {
+    const sesionJSON = localStorage.getItem(LOCAL_STORAGE_SESION_KEY);
+    return sesionJSON ? JSON.parse(sesionJSON) : null;
+}
 
 export const crearUsuario = (usuario) => {
     const { nombre, email, password } = usuario;
