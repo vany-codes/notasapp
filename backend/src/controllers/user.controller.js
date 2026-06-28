@@ -5,10 +5,18 @@ const bcrypt = require('bcrypt');
 
 // Función para registrar un nuevo usuario
 
-const createUser = async (req, res) => {
+const registerUser = async (req, res) => {
   const { nombre, correo_electronico, contrasena } = req.body;
 
   try {
+
+    // Verificar si el correo electrónico ya está registrado
+    const existingUser = await pool.query('SELECT * FROM usuarios WHERE correo_electronico = $1', [correo_electronico]);
+
+    if (existingUser.rows.length > 0) {
+      return res.status(400).json({ message: 'El correo electrónico ya está registrado' });
+    }
+
     const hashedPassword = await bcrypt.hash(contrasena, 10);
 
     const result = await pool.query(
@@ -24,6 +32,40 @@ const createUser = async (req, res) => {
   } catch (error) {
     console.error('Error al crear usuario:', error);
     res.status(500).json({ message: 'Error al crear usuario' });
+  }
+};
+
+
+// Funcion para login de usuario
+
+const loginUser = async (req, res) => {
+  const { correo_electronico, contrasena } = req.body;
+
+  try {
+    const result = await pool.query('SELECT * FROM usuarios WHERE correo_electronico = $1', [correo_electronico]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    const user = result.rows[0];
+    const isPasswordValid = await bcrypt.compare(contrasena, user.contrasena);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Contraseña incorrecta' });
+    }
+
+    res.status(200).json({ message: 'Inicio de sesión exitoso',
+      user: {
+        id: user.id,
+        nombre: user.nombre,
+        correo_electronico: user.correo_electronico
+      }
+    });
+
+  } catch (error) {
+    console.error('Error al iniciar sesión:', error);
+    res.status(500).json({ message: 'Error al iniciar sesión' });
   }
 };
 
@@ -107,9 +149,10 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-  createUser,
+  registerUser,
   getUsers,
   getUserById,
   updateUser,
   deleteUser,
+  loginUser,
 };
