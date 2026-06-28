@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { registerUser, loginUser, getUsers, getUserById, updateUser, deleteUser } = require('../controllers/user.controller');
+const { verifyToken } = require('../middlewares/auth.middleware');
 
 // Ruta para crear un nuevo usuario
 router.post('/users', registerUser);
@@ -9,6 +10,10 @@ router.post('/users', registerUser);
 // Ruta para iniciar sesión
 router.post('/login', loginUser);
 
+// Ruta de prueba para verificar el token (protegida por el middleware de autenticación)
+router.get('/protected', verifyToken, (req, res) => {
+  res.status(200).json({ message: 'Acceso permitido a la ruta protegida', user: req.user });
+});
 // Ruta para obtener todos los usuarios
 router.get('/users', getUsers);
 

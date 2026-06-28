@@ -2,6 +2,7 @@
 
 const pool = require('../config/db.js');
 const bcrypt = require('bcrypt');
+const { generateToken } = require('../utils/jwt.js');
 
 // Función para registrar un nuevo usuario
 
@@ -55,12 +56,15 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
 
+    const token = generateToken(user);
+
     res.status(200).json({ message: 'Inicio de sesión exitoso',
       user: {
         id: user.id,
         nombre: user.nombre,
         correo_electronico: user.correo_electronico
-      }
+      },
+      token
     });
 
   } catch (error) {
