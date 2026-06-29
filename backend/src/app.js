@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 const userRoutes = require('./routes/user.routes');
+const errorHandler = require('./middlewares/error.middleware');
 
 // Crear una instancia de la aplicación Express
 const app = express();
@@ -16,5 +17,6 @@ app.use('/api', userRoutes);
 app.get('/', (req, res) => {
   res.json({ message: "API funcionando 🚀" });
 });
+app.use(errorHandler); // Middleware para manejar errores 
 
 module.exports = app;

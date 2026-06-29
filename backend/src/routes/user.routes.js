@@ -3,12 +3,14 @@ const router = express.Router();
 
 const { registerUser, loginUser, getUsers, getUserById, updateUser, deleteUser } = require('../controllers/user.controller');
 const { verifyToken } = require('../middlewares/auth.middleware');
+const { registerValidation, loginValidation } = require('../validations/user.validation');
+const validate = require('../middlewares/validation.middleware');
 
 // Ruta para crear un nuevo usuario
-router.post('/users', registerUser);
+router.post('/register', registerValidation, validate, registerUser);
 
 // Ruta para iniciar sesión
-router.post('/login', loginUser);
+router.post('/login', loginValidation, validate, loginUser);
 
 // Ruta de prueba para verificar el token (protegida por el middleware de autenticación)
 router.get('/protected', verifyToken, (req, res) => {
