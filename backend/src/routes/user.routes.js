@@ -16,16 +16,16 @@ router.post('/login', loginValidation, validate, loginUser);
 router.get('/protected', verifyToken, (req, res) => {
   res.status(200).json({ message: 'Acceso permitido a la ruta protegida', user: req.user });
 });
-// Ruta para obtener todos los usuarios
+// Ruta para obtener todos los usuarios, demomento para pruebas, despues se puede eliminar o proteger con un middleware de autenticación
 router.get('/users', getUsers);
 
 // Ruta para obtener un usuario por ID
-router.get('/users/:id', getUserById);
+router.get('/users/me', verifyToken, getUserById);
 
 // Ruta para actualizar un usuario por ID
-router.put('/users/:id', updateUser);
+router.put('/users/me', verifyToken, updateUser);
 
 // Ruta para eliminar un usuario por ID
-router.delete('/users/:id', deleteUser);
+router.delete('/users/me', verifyToken, deleteUser);
 
 module.exports = router;

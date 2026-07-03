@@ -3,7 +3,6 @@
   const pool = require('../config/db.js');
   const bcrypt = require('bcrypt');
   const { generateToken } = require('../utils/jwt.js');
-  const errorHandler = require('../middlewares/error.middleware.js');
 
   // Función para registrar un nuevo usuario
 
@@ -86,7 +85,9 @@
   // Función para obtener un usuario por ID
 
   const getUserById = async (req, res, next) => {
-    const { id } = req.params;
+    //  const { id } = req.params;
+
+    const id = req.user.id; // Obtener el ID del usuario autenticado desde el token
 
     try {
       const result = await pool.query('SELECT id, nombre, correo_electronico FROM usuarios WHERE id = $1', [id]);
@@ -104,7 +105,7 @@
   // Función para actualizar un usuario por ID
 
   const updateUser = async (req, res, next) => {
-    const { id } = req.params;
+    const id = req.user.id; // Obtener el ID del usuario autenticado desde el token
     const { nombre, correo_electronico, contrasena } = req.body;
 
     try {
@@ -130,7 +131,7 @@
   // Función para eliminar un usuario por ID
 
   const deleteUser = async (req, res, next) => {
-    const { id } = req.params;
+    const id = req.user.id; // Obtener el ID del usuario autenticado desde el token
 
     try {
       const result = await pool.query('SELECT * FROM usuarios WHERE id = $1', [id]);
