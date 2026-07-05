@@ -5,12 +5,13 @@ import { useNavigate } from "react-router";
 import LabelForm from "../componentes/share/LabelForm";
 import InputForm from "../componentes/share/InputForm";
 import { crearUsuario } from "../data/usuario.local";
+import { validateEmail } from "../utils/validators";
 
 function Registro() {
     const [nombre, setNombre] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [correo_electronico, setCorreoElectronico] = useState("");
+    const [contrasena, setContrasena] = useState("");
+    const [confirmarContrasena, setConfirmarContrasena] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -19,23 +20,23 @@ function Registro() {
         e.preventDefault();
         setError("");
 
-        if (!nombre.trim() || !email.trim() || !password || !confirmPassword) {
+        if (!nombre.trim() || !correo_electronico.trim() || !contrasena || !confirmarContrasena) {
             setError("Todos los campos son obligatorios.");
             return;
         }
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            setError("Ingresa un correo electrónico válido.");
+        const emailError = validateEmail(correo_electronico);
+        if (emailError) {
+            setError(emailError);
             return;
         }
 
-        if (password.length < 6) {
+        if (contrasena.length < 6) {
             setError("La contraseña debe tener al menos 6 caracteres.");
             return;
         }
 
-        if (password !== confirmPassword) {
+        if (contrasena !== confirmarContrasena) {
             setError("Las contraseñas no coinciden.");
             return;
         }
@@ -45,8 +46,8 @@ function Registro() {
         try {
             const nuevoUsuario = {
                 nombre: nombre.trim(),
-                email: email.trim().toLowerCase(),
-                password: password.trim(),
+                email: correo_electronico.trim().toLowerCase(),
+                password: contrasena.trim(),
             };
 
             console.log("Usuario registrado:", nuevoUsuario);
@@ -55,9 +56,9 @@ function Registro() {
 
             // Limpiar formulario
             setNombre("");
-            setEmail("");
-            setPassword("");
-            setConfirmPassword("");
+            setCorreoElectronico("");
+            setContrasena("");
+            setConfirmarContrasena("");
         } catch (err) {
             setError("Ocurrió un error al registrar el usuario.");
         } finally {
@@ -118,8 +119,8 @@ function Registro() {
                                 type="email"
                                 id="email"
                                 placeholder="correo@ejemplo.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                value={correo_electronico}
+                                onChange={(e) => setCorreoElectronico(e.target.value)}
                             />
                         </div>
                     </div>
@@ -133,37 +134,37 @@ function Registro() {
                                 type="password"
                                 id="password"
                                 placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                value={contrasena}
+                                onChange={(e) => setContrasena(e.target.value)}
                             />
                         </div>
                         <p className={`text-sm mt-2 ${
-                            password.length === 0 ? "text-gray-500" : password.length >= 6 ? "text-green-400" : "text-yellow-400"
+                            contrasena.length === 0 ? "text-gray-500" : contrasena.length >= 6 ? "text-green-400" : "text-yellow-400"
                         }`}>
-                            {password.length === 0
+                            {contrasena.length === 0
                                 ? "Mínimo 6 caracteres."
-                                : password.length >= 6
+                                : contrasena.length >= 6
                                 ? "✓ Contraseña válida."
-                                : `Faltan ${6 - password.length} caracteres.`}
+                                : `Faltan ${6 - contrasena.length} caracteres.`}
                         </p>
                     </div>
 
                     {/* Confirmar contraseña */}
                     <div>
-                        <LabelForm htmlFor="confirmPassword" name="Confirmar contraseña" />
+                        <LabelForm htmlFor="confirmarContrasena" name="Confirmar contraseña" />
                         <div className="relative">
                             <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
                             <InputForm
                                 type="password"
-                                id="confirmPassword"
+                                id="confirmarContrasena"
                                 placeholder="••••••••"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                value={confirmarContrasena}
+                                onChange={(e) => setConfirmarContrasena(e.target.value)}
                             />
                         </div>
-                        {confirmPassword && (
-                            <p className={`text-sm mt-2 ${password === confirmPassword ? "text-green-400" : "text-red-400"}`}>
-                                {password === confirmPassword ? "✓ Las contraseñas coinciden." : "✗ Las contraseñas no coinciden."}
+                        {confirmarContrasena && (
+                            <p className={`text-sm mt-2 ${contrasena === confirmarContrasena ? "text-green-400" : "text-red-400"}`}>
+                                {contrasena === confirmarContrasena ? "✓ Las contraseñas coinciden." : "✗ Las contraseñas no coinciden."}
                             </p>
                         )}
                     </div>

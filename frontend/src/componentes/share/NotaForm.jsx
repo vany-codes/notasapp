@@ -8,7 +8,7 @@ function NotaFormulario({ nota }) {
     const [titulo, setTitulo] = useState("");
     const [contenido, setContenido] = useState("");
     const [prioridad, setPrioridad] = useState("Baja");
-    const [estado, setEstado] = useState("publico");
+    const [estado, setEstado] = useState("Publico");
     const navegar = useNavigate();
 
     useEffect(() => {
@@ -43,23 +43,13 @@ function NotaFormulario({ nota }) {
             setTitulo("");
             setContenido("");
             setPrioridad("Baja");
-            setEstado("publico");
+            setEstado("Publico");
         }
     };
 
     return (
         <div
-            className="
-                w-full
-                max-w-2xl
-                mx-auto
-                bg-gray-800/60
-                backdrop-blur-md
-                border border-gray-700
-                rounded-3xl
-                shadow-2xl
-                p-8
-            "
+            className="w-full max-w-2xl mx-auto bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-3xl shadow-2xl p-8"
         >
             <h2 className="text-3xl font-black text-white mb-2">
                 {nota ? "Editar nota" : "Nueva nota"}
@@ -91,21 +81,7 @@ function NotaFormulario({ nota }) {
                         value={titulo}
                         onChange={(e) => setTitulo(e.target.value)}
                         placeholder="Ej. Comprar ingredientes"
-                        className="
-                            w-full
-                            px-4
-                            py-3
-                            rounded-2xl
-                            bg-gray-900
-                            border border-gray-700
-                            text-white
-                            placeholder-gray-500
-                            focus:outline-none
-                            focus:ring-2
-                            focus:ring-blue-500
-                            focus:border-transparent
-                            transition
-                        "
+                        className="w-full px-4 py-3 rounded-2xl bg-gray-900 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                         required
                     />
                 </div>
@@ -126,24 +102,7 @@ function NotaFormulario({ nota }) {
                         value={contenido}
                         onChange={(e) => setContenido(e.target.value)}
                         placeholder="Escribe aquí tu nota..."
-                        className="
-                            w-full
-                            px-4
-                            py-3
-                            rounded-2xl
-                            bg-gray-900
-                            border border-gray-700
-                            text-white
-                            placeholder-gray-500
-                            resize-none
-                            focus:outline-none
-                            focus:ring-2
-                            focus:ring-blue-500
-                            focus:border-transparent
-                            transition
-                        "
-                        required
-                    />
+                        className="w-full px-4 py-3 rounded-2xl bg-gray-900 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" required/>
                 </div>
 
                 {/* Selects */}
@@ -163,24 +122,11 @@ function NotaFormulario({ nota }) {
                             name="prioridad"
                             value={prioridad}
                             onChange={(e) => setPrioridad(e.target.value)}
-                            className="
-                                w-full
-                                px-4
-                                py-3
-                                rounded-2xl
-                                bg-gray-900
-                                border border-gray-700
-                                text-white
-                                focus:outline-none
-                                focus:ring-2
-                                focus:ring-blue-500
-                                focus:border-transparent
-                                transition
-                            "
+                            className="w-full px-4 py-3 rounded-2xl bg-gray-900 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                         >
-                            <option value="baja">🟢 Baja</option>
-                            <option value="media">🟡 Media</option>
-                            <option value="alta">🔴 Alta</option>
+                            <option value="Baja">🟢 Baja</option>
+                            <option value="Media">🟡 Media</option>
+                            <option value="Alta">🔴 Alta</option>
                         </select>
                     </div>
 
@@ -198,23 +144,10 @@ function NotaFormulario({ nota }) {
                             name="estado"
                             value={estado}
                             onChange={(e) => setEstado(e.target.value)}
-                            className="
-                                w-full
-                                px-4
-                                py-3
-                                rounded-2xl
-                                bg-gray-900
-                                border border-gray-700
-                                text-white
-                                focus:outline-none
-                                focus:ring-2
-                                focus:ring-blue-500
-                                focus:border-transparent
-                                transition
-                            "
+                            className="w-full px-4 py-3 rounded-2xl bg-gray-900 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                         >
-                            <option value="publico">🌍 Público</option>
-                            <option value="privado">🔒 Privado</option>
+                            <option value="Publico">🌍 Público</option>
+                            <option value="Privado">🔒 Privado</option>
                         </select>
                     </div>
 
@@ -228,37 +161,17 @@ function NotaFormulario({ nota }) {
                         onClick={() => {
                             setTitulo("");
                             setContenido("");
-                            setPrioridad("baja");
-                            setEstado("publico");
+                            setPrioridad("Baja");
+                            setEstado("Publico");
                         }}
-                        className="
-                            px-6
-                            py-3
-                            rounded-2xl
-                            border
-                            border-gray-600
-                            text-gray-300
-                            hover:bg-gray-700
-                            transition
-                        "
+                        className="px-6 py-3 rounded-2xl border border-gray-600 text-gray-300 hover:bg-gray-700 transition "
                     >
                         Cancelar
                     </button>
 
                     <button
                         type="submit"
-                        className="
-                            px-6
-                            py-3
-                            rounded-2xl
-                            bg-blue-600
-                            hover:bg-blue-500
-                            text-white
-                            font-semibold
-                            shadow-lg
-                            transition
-                            hover:scale-105
-                        "
+                        className="px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg transition hover:scale-105"
                     >
                         {nota ? "Guardar cambios" : "Guardar nota"}
                     </button>

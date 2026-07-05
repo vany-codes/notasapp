@@ -29,8 +29,8 @@ function Notas() {
   };
 
   const colorEstado = {
-    publico: "bg-blue-500/20 text-blue-400",
-    privado: "bg-purple-500/20 text-purple-400",
+    Publico: "bg-blue-500/20 text-blue-400",
+    Privado: "bg-purple-500/20 text-purple-400",
   };
 
   return (
@@ -109,13 +109,13 @@ function Notas() {
                 <span
                   className={` flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold ${colorEstado[nota.estado]}`}
                 >
-                  {nota.estado === "publico" ? (
+                  {nota.estado === "Publico" ? (
                     <Globe size={14} />
                   ) : (
                     <Lock size={14} />
                   )}
 
-                  {nota.estado === "publico" ? "Pública" : "Privada"}
+                  {nota.estado === "Publico" ? "Pública" : "Privada"}
                 </span>
               </div>
             </div>

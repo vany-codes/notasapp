@@ -5,10 +5,11 @@ import LabelForm from "../componentes/share/LabelForm";
 import InputForm from "../componentes/share/InputForm";
 import { Navigate, useNavigate } from "react-router";
 import { loginUsuario } from "../data/usuario.local";
+import { validateEmail } from "../utils/validators";
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [correo_electronico, setCorreoElectronico] = useState("");
+    const [contrasena, setContrasena] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -17,14 +18,14 @@ function Login() {
         e.preventDefault();
         setError("");
 
-        if (!email.trim() || !password) {
+        if (!correo_electronico.trim() || !contrasena) {
             setError("Todos los campos son obligatorios.");
             return;
         }
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            setError("Ingresa un correo electrónico válido.");
+        const emailError = validateEmail(correo_electronico);
+        if (emailError) {
+            setError(emailError);
             return;
         }
 
@@ -32,8 +33,8 @@ function Login() {
 
         try {
             const credenciales = {
-                email: email.trim().toLowerCase(),
-                password,
+                email: correo_electronico.trim().toLowerCase(),
+                password: contrasena.trim(),
             };
 
             console.log("Iniciando sesión:", credenciales);
@@ -88,8 +89,8 @@ function Login() {
                                 type="email"
                                 id="email"
                                 placeholder="correo@ejemplo.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                value={correo_electronico}
+                                onChange={(e) => setCorreoElectronico(e.target.value)}
                             />
                         </div>
                     </div>
@@ -105,8 +106,8 @@ function Login() {
                                 type="password"
                                 id="password"
                                 placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                value={contrasena}
+                                onChange={(e) => setContrasena(e.target.value)}
                             />
                         </div>
                     </div>
