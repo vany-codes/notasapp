@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { Mail, Lock, LogIn } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import LabelForm from "../componentes/share/LabelForm";
 import InputForm from "../componentes/share/InputForm";
 import { Navigate, useNavigate } from "react-router";
 import { loginUsuario } from "../data/usuario.local";
 import { validateEmail } from "../utils/validators";
+import { postLogin } from "../services/user.routes";
+import { AuthContext } from "../context/AuthContext";
 
 function Login() {
     const [correo_electronico, setCorreoElectronico] = useState("");
@@ -13,6 +15,7 @@ function Login() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { login } = useContext(AuthContext); // Accede a la función de login desde el contexto de autenticación
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -37,8 +40,17 @@ function Login() {
                 password: contrasena.trim(),
             };
 
-            console.log("Iniciando sesión:", credenciales);
-            loginUsuario(credenciales.email, credenciales.password);
+            // console.log("Iniciando sesión:", credenciales);
+            const respuesta = await postLogin({ correo_electronico: credenciales.email, contrasena: credenciales.password });
+
+            // Imprime la respuesta del backend para depuración y el token recibido
+            console.log("Respuesta del backend:", respuesta);
+            
+            const { user, token } = respuesta; // Desestructura la respuesta para obtener el usuario y el token
+            
+            // Llama a la función de login del contexto para actualizar el estado global
+            login(user, token);
+            
             navigate("/notas");
             // Aquí irá tu petición al backend
 
