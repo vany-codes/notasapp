@@ -6,6 +6,7 @@ import LabelForm from "../componentes/share/LabelForm";
 import InputForm from "../componentes/share/InputForm";
 import { crearUsuario } from "../data/usuario.local";
 import { validateEmail } from "../utils/validators";
+import { postUser } from "../services/user.routes";
 
 function Registro() {
     const [nombre, setNombre] = useState("");
@@ -46,12 +47,15 @@ function Registro() {
         try {
             const nuevoUsuario = {
                 nombre: nombre.trim(),
-                email: correo_electronico.trim().toLowerCase(),
-                password: contrasena.trim(),
+                correo_electronico: correo_electronico.trim().toLowerCase(),
+                contrasena: contrasena.trim(),
             };
 
-            console.log("Usuario registrado:", nuevoUsuario);
-            crearUsuario(nuevoUsuario);
+            //  console.log("Usuario registrado:", nuevoUsuario);
+            //  crearUsuario(nuevoUsuario);
+
+            const respuesta = await postUser(nuevoUsuario);
+            console.log("Usuario registrado:", respuesta);
             navigate("/login");
 
             // Limpiar formulario
