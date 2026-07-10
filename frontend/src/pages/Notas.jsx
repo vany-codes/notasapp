@@ -10,9 +10,12 @@ import {
 import { obtenerSesionUsuario } from "../data/usuario.local";
 import { obtenerNNotas } from "../data/notas.local";
 import { useNavigate } from "react-router";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
 
 function Notas() {
   const navegar = useNavigate();
+  const { user } = useContext(AuthContext);
 
   const usuario = obtenerSesionUsuario();
   const notas = obtenerNNotas(usuario);
@@ -38,7 +41,7 @@ function Notas() {
       {/* Encabezado */}
       <section className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-5">
         <div>
-          <h2 className="text-4xl font-black text-white">Mis notas</h2>
+          <h2 className="text-4xl font-black text-white">Mis notas {user?.nombre} </h2>
 
           <p className="text-gray-400 mt-2">
             Tienes {notas.length} notas guardadas.

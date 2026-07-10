@@ -36,11 +36,11 @@ function Login() {
 
         try {
             const credenciales = {
-                email: correo_electronico.trim().toLowerCase(),
-                password: contrasena.trim(),
+                correo_electronico: correo_electronico.trim().toLowerCase(),
+                contrasena: contrasena.trim(),
             };
 
-            const respuesta = await postLogin({ correo_electronico: credenciales.email, contrasena: credenciales.password });
+            const respuesta = await postLogin(credenciales); // Llama a la función postLogin para enviar las credenciales al backend
 
             // Imprime la respuesta del backend para depuración y el token recibido
             console.log("Respuesta del backend:", respuesta.user.nombre, "Token recibido:", respuesta.token);
