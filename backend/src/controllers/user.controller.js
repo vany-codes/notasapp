@@ -31,8 +31,12 @@ const registerUser = async (req, res, next) => {
 
     // Devolvera solo el nombre del usuario
     res.status(201).json({
+      success: true,
       message: "Usuario creado exitosamente",
-      userId: result.rows[0].nombre,
+      data: {
+        id: result.rows[0].id,
+        nombre,
+      },
     });
   } catch (error) {
     next(error); // Pasar el error al middleware de manejo de errores
@@ -51,19 +55,20 @@ const loginUser = async (req, res, next) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ success: false, message: "Usuario no encontrado" });
     }
 
     const user = result.rows[0];
     const isPasswordValid = await bcrypt.compare(contrasena, user.contrasena);
 
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Contraseña incorrecta" });
+      return res.status(401).json({ success: false, message: "Contraseña incorrecta" });
     }
 
     const token = generateToken(user);
 
-    res.status(200).json({
+    res.status(201).json({
+      success: true,
       message: "Inicio de sesión exitoso",
       user: {
         id: user.id,
@@ -84,7 +89,7 @@ const getUsers = async (req, res, next) => {
     const results = await pool.query(
       "SELECT id, nombre, correo_electronico FROM usuarios",
     );
-    res.status(200).json(results.rows);
+    res.status(200).json({ success: true, data: results.rows });
   } catch (error) {
     next(error); // Pasar el error al middleware de manejo de errores
   }
@@ -104,10 +109,10 @@ const getUserById = async (req, res, next) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ success: false, message: "Usuario no encontrado" });
     }
 
-    res.status(200).json(result.rows[0]);
+    res.status(200).json({ success: true, data: result.rows[0] });
   } catch (error) {
     next(error); // Pasar el error al middleware de manejo de errores
   }
@@ -127,6 +132,7 @@ const updateUser = async (req, res, next) => {
 
     if (result.rows.length === 0) {
       return res.status(404).json({
+        success: false,
         message: "Usuario no encontrado",
       });
     }
@@ -148,6 +154,7 @@ const updateUser = async (req, res, next) => {
 
       if (existingUser.rows.length > 0) {
         return res.status(400).json({
+          success: false,
           message: "Ese correo electrónico ya está registrado",
         });
       }
@@ -174,6 +181,7 @@ const updateUser = async (req, res, next) => {
     );
 
     return res.status(200).json({
+      success: true,
       message: "Usuario actualizado exitosamente",
     });
   } catch (error) {
@@ -192,12 +200,12 @@ const deleteUser = async (req, res, next) => {
     ]);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ success: false, message: "Usuario no encontrado" });
     }
 
     await pool.query("DELETE FROM usuarios WHERE id = $1", [id]);
 
-    res.status(200).json({ message: "Usuario eliminado exitosamente" });
+    res.status(200).json({ success: true, message: "Usuario eliminado exitosamente" });
   } catch (error) {
     next(error); // Pasar el error al middleware de manejo de errores
   }

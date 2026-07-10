@@ -56,7 +56,7 @@ function Registro() {
 
             const respuesta = await postUser(nuevoUsuario);
 
-            console.log("Usuario registrado:", respuesta);
+            console.log("Usuario registrado:", respuesta.data.nombre);
             navigate("/login");
 
             // Limpiar formulario
@@ -67,6 +67,7 @@ function Registro() {
         } catch (err) {
             if (err.response?.data?.errors) {
                 setError(err.response.data.errors[0].mensaje);
+                // console.error("Error al registrar el usuario:", err.response.data.errors);
             } else {
                 setError(err.response?.data?.message || "Error al registrar el usuario.");
             }

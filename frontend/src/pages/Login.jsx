@@ -40,11 +40,10 @@ function Login() {
                 password: contrasena.trim(),
             };
 
-            // console.log("Iniciando sesión:", credenciales);
             const respuesta = await postLogin({ correo_electronico: credenciales.email, contrasena: credenciales.password });
 
             // Imprime la respuesta del backend para depuración y el token recibido
-            console.log("Respuesta del backend:", respuesta);
+            console.log("Respuesta del backend:", respuesta.user.nombre, "Token recibido:", respuesta.token);
             
             const { user, token } = respuesta; // Desestructura la respuesta para obtener el usuario y el token
             
@@ -56,8 +55,12 @@ function Login() {
 
 
         } catch (err) {
-            setError("Correo o contraseña incorrectos.");
-            console.error("Error de inicio de sesión:", err);
+            if (err.response?.data?.errors) {
+                setError(err.response.data.errors[0].mensaje);
+                // console.error("Error al iniciar sesión:", err.response.data.errors);
+            } else {
+                setError(err.response?.data?.message || "Error al iniciar sesión.");
+            }
         } finally {
             setLoading(false);
         }
