@@ -6,7 +6,7 @@ import InputForm from "../componentes/share/InputForm";
 import { Navigate, useNavigate } from "react-router";
 import { loginUsuario } from "../data/usuario.local";
 import { validateEmail } from "../utils/validators";
-import { postLogin } from "../services/user.routes";
+import { postLogin } from "../services/user.service";
 import { AuthContext } from "../context/AuthContext";
 
 function Login() {

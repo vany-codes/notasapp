@@ -29,9 +29,10 @@ const registerUser = async (req, res, next) => {
       [nombre, correo_electronico, hashedPassword],
     );
 
+    // Devolvera solo el nombre del usuario
     res.status(201).json({
       message: "Usuario creado exitosamente",
-      userId: result.rows[0].id,
+      userId: result.rows[0].nombre,
     });
   } catch (error) {
     next(error); // Pasar el error al middleware de manejo de errores

@@ -6,7 +6,7 @@ import LabelForm from "../componentes/share/LabelForm";
 import InputForm from "../componentes/share/InputForm";
 import { crearUsuario } from "../data/usuario.local";
 import { validateEmail } from "../utils/validators";
-import { postUser } from "../services/user.routes";
+import { postUser } from "../services/user.service";
 
 function Registro() {
     const [nombre, setNombre] = useState("");
@@ -55,6 +55,7 @@ function Registro() {
             //  crearUsuario(nuevoUsuario);
 
             const respuesta = await postUser(nuevoUsuario);
+
             console.log("Usuario registrado:", respuesta);
             navigate("/login");
 
@@ -64,7 +65,11 @@ function Registro() {
             setContrasena("");
             setConfirmarContrasena("");
         } catch (err) {
-            setError("Ocurrió un error al registrar el usuario.");
+            if (err.response?.data?.errors) {
+                setError(err.response.data.errors[0].mensaje);
+            } else {
+                setError(err.response?.data?.message || "Error al registrar el usuario.");
+            }
         } finally {
             setLoading(false);
         }
@@ -146,7 +151,7 @@ function Registro() {
                             contrasena.length === 0 ? "text-gray-500" : contrasena.length >= 6 ? "text-green-400" : "text-yellow-400"
                         }`}>
                             {contrasena.length === 0
-                                ? "Mínimo 6 caracteres."
+                                ? "Mínimo 6 caracteres, incluyendo una letra mayúscula, una letra minúscula y un número."
                                 : contrasena.length >= 6
                                 ? "✓ Contraseña válida."
                                 : `Faltan ${6 - contrasena.length} caracteres.`}
