@@ -1,24 +1,20 @@
-/* eslint-disable react-hooks/set-state-in-effect */
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { obtenerSesionUsuario } from "../../data/usuario.local";
 import { crearNota } from "../../data/notas.local";
 import { useNavigate } from "react-router";
+import { AuthContext } from "../../context/AuthContext";
 
 function NotaFormulario({ nota }) {
-    const [titulo, setTitulo] = useState("");
-    const [contenido, setContenido] = useState("");
-    const [prioridad, setPrioridad] = useState("Baja");
-    const [estado, setEstado] = useState("Publico");
     const navegar = useNavigate();
+    const { estaAutenticado } = useContext(AuthContext);
 
-    useEffect(() => {
-        if (nota) {
-            setTitulo(nota.titulo);
-            setContenido(nota.contenido);
-            setPrioridad(nota.prioridad);
-            setEstado(nota.estado);
-        }
-    }, [nota]);
+    // Inicializamos el estado directamente con los datos de la nota (si existen)
+    const [titulo, setTitulo] = useState(nota?.titulo || "");
+    const [contenido, setContenido] = useState(nota?.contenido || "");
+    const [prioridad, setPrioridad] = useState(nota?.prioridad || "Baja");
+    
+    // Si no está autenticado, el estado por defecto SIEMPRE debe ser Publico
+    const [estado, setEstado] = useState(nota?.estado || "Publico");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,56 +24,39 @@ function NotaFormulario({ nota }) {
             titulo,
             contenido,
             prioridad,
-            estado,
+            estado: estaAutenticado ? estado : "Publico", // Doble check por seguridad
         };
 
         const usuario = obtenerSesionUsuario();
-
         crearNota(nuevaNota, usuario);
 
         console.log("Nota guardada:", nuevaNota);
         navegar("/notas");
+    };
 
-        // Si es una nueva nota, limpiamos el formulario
-        if (!nota) {
-            setTitulo("");
-            setContenido("");
-            setPrioridad("Baja");
-            setEstado("Publico");
-        }
+    const handleCancelar = () => {
+        navegar("/notas"); // Es más amigable devolver al usuario a la lista
     };
 
     return (
-        <div
-            className="w-full max-w-2xl mx-auto bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-3xl shadow-2xl p-8"
-        >
+        <div className="w-full max-w-2xl mx-auto bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-3xl shadow-2xl p-8">
             <h2 className="text-3xl font-black text-white mb-2">
                 {nota ? "Editar nota" : "Nueva nota"}
             </h2>
 
             <p className="text-gray-400 mb-8">
-                {nota
-                    ? "Modifica la información de tu nota."
-                    : "Completa la información de tu nota."}
+                {nota ? "Modifica la información de tu nota." : "Completa la información de tu nota."}
             </p>
 
-            <form
-                className="space-y-6"
-                onSubmit={handleSubmit}
-            >
+            <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Título */}
                 <div>
-                    <label
-                        htmlFor="titulo"
-                        className="block text-sm font-semibold text-gray-300 mb-2"
-                    >
+                    <label htmlFor="titulo" className="block text-sm font-semibold text-gray-300 mb-2">
                         Título
                     </label>
-
                     <input
                         type="text"
                         id="titulo"
-                        name="titulo"
                         value={titulo}
                         onChange={(e) => setTitulo(e.target.value)}
                         placeholder="Ej. Comprar ingredientes"
@@ -88,38 +67,29 @@ function NotaFormulario({ nota }) {
 
                 {/* Contenido */}
                 <div>
-                    <label
-                        htmlFor="contenido"
-                        className="block text-sm font-semibold text-gray-300 mb-2"
-                    >
+                    <label htmlFor="contenido" className="block text-sm font-semibold text-gray-300 mb-2">
                         Contenido
                     </label>
-
                     <textarea
                         id="contenido"
-                        name="contenido"
                         rows="6"
                         value={contenido}
                         onChange={(e) => setContenido(e.target.value)}
                         placeholder="Escribe aquí tu nota..."
-                        className="w-full px-4 py-3 rounded-2xl bg-gray-900 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" required/>
+                        className="w-full px-4 py-3 rounded-2xl bg-gray-900 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" 
+                        required
+                    />
                 </div>
 
                 {/* Selects */}
                 <div className="grid md:grid-cols-2 gap-6">
-
                     {/* Prioridad */}
                     <div>
-                        <label
-                            htmlFor="prioridad"
-                            className="block text-sm font-semibold text-gray-300 mb-2"
-                        >
+                        <label htmlFor="prioridad" className="block text-sm font-semibold text-gray-300 mb-2">
                             Prioridad
                         </label>
-
                         <select
                             id="prioridad"
-                            name="prioridad"
                             value={prioridad}
                             onChange={(e) => setPrioridad(e.target.value)}
                             className="w-full px-4 py-3 rounded-2xl bg-gray-900 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
@@ -130,52 +100,40 @@ function NotaFormulario({ nota }) {
                         </select>
                     </div>
 
-                    {/* Estado */}
+                    {/* Estado (Simplificado y corregido) */}
                     <div>
-                        <label
-                            htmlFor="estado"
-                            className="block text-sm font-semibold text-gray-300 mb-2"
-                        >
+                        <label htmlFor="estado" className="block text-sm font-semibold text-gray-300 mb-2">
                             Estado
                         </label>
-
                         <select
                             id="estado"
-                            name="estado"
-                            value={estado}
+                            value={estaAutenticado ? estado : "Publico"}
                             onChange={(e) => setEstado(e.target.value)}
-                            className="w-full px-4 py-3 rounded-2xl bg-gray-900 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                            disabled={!estaAutenticado} // Deshabilitado si es invitado
+                            className="w-full px-4 py-3 rounded-2xl bg-gray-900 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <option value="Publico">🌍 Público</option>
-                            <option value="Privado">🔒 Privado</option>
+                            {estaAutenticado && <option value="Privado">🔒 Privado</option>}
                         </select>
                     </div>
-
                 </div>
 
                 {/* Botones */}
                 <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
-
                     <button
                         type="button"
-                        onClick={() => {
-                            setTitulo("");
-                            setContenido("");
-                            setPrioridad("Baja");
-                            setEstado("Publico");
-                        }}
-                        className="px-6 py-3 rounded-2xl border border-gray-600 text-gray-300 hover:bg-gray-700 transition "
+                        onClick={handleCancelar}
+                        className="px-6 py-3 rounded-2xl border border-gray-600 text-gray-300 hover:bg-gray-700 transition cursor-pointer"
                     >
                         Cancelar
                     </button>
 
                     <button
                         type="submit"
-                        className="px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg transition hover:scale-105"
+                        className="px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg transition hover:scale-105 cursor-pointer"
                     >
                         {nota ? "Guardar cambios" : "Guardar nota"}
                     </button>
-
                 </div>
             </form>
         </div>

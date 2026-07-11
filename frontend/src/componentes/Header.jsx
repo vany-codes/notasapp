@@ -10,7 +10,7 @@ function Header() {
             <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
                 
                 {/* Logo / Título */}
-                <h1 className="text-3xl font-extrabold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text select-none">
+                <h1 className="text-3xl font-extrabold bg-linear-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text select-none">
                     Notasapp
                 </h1>
 
