@@ -2,10 +2,11 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
 import { guardarNotasPublicas } from "../../utils/notas.storage";
+import { postNota } from "../../services/notas.service";
 
 function NotaFormulario({ nota }) {
     const navegar = useNavigate();
-    const { estaAutenticado } = useContext(AuthContext);
+    const { estaAutenticado, token } = useContext(AuthContext);
 
     // Inicializamos el estado directamente con los datos de la nota (si existen)
     const [titulo, setTitulo] = useState(nota?.titulo || "");
@@ -15,7 +16,7 @@ function NotaFormulario({ nota }) {
     // Si no está autenticado, el estado por defecto SIEMPRE debe ser Publico
     const [estado, setEstado] = useState(nota?.estado || "Publico");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const nuevaNota = {
@@ -26,14 +27,21 @@ function NotaFormulario({ nota }) {
             estado: estaAutenticado ? estado : "Publico", // Doble check por seguridad
         };
 
-        // Valida si la nota es publica o privada antes de guardarla
-        if (nuevaNota.estado === "Publico") {
-            // Guardar la nota en el localStorage
-            guardarNotasPublicas(nuevaNota);
+        try {
+            // Valida si el usuario está autenticado y si intenta guardar una nota privada, para mandarla al backend
+            if (nuevaNota.estado === "Privado" && estaAutenticado) {
+                const respuesta = await postNota(nuevaNota, token);
+                console.log("Nota guardada en el backend:", respuesta);
+            } else {
+                guardarNotasPublicas(nuevaNota);
+            }
+        navegar("/notas");
+
+        } catch (error) {
+            console.error("Error al guardar la nota:", error);
         }
 
         console.log("Nota guardada:", nuevaNota);
-        navegar("/notas");
     };
 
     const handleCancelar = () => {

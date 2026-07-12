@@ -11,10 +11,11 @@ import { useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import { obtenerNotasPublicas } from "../utils/notas.storage";
+import { getNotas } from "../services/notas.service";
 
 function Notas() {
   const navegar = useNavigate();
-  const { usuario, estaAutenticado } = useContext(AuthContext);
+  const { usuario, estaAutenticado, token } = useContext(AuthContext);
   const [notas, setNotas] = useState([]);
 
   useEffect(() => {
@@ -22,8 +23,7 @@ function Notas() {
     const cargarNotas = async () => {
       if (estaAutenticado) {
 
-        // Si el usuario esta autenticado, carga todas las notas (públicas y privadas), de momento slo simulara con await new Promise((resolve) => setTimeout(resolve, 500)); // Simula una llamada a la API
-        const notasPrivadas = []; // Aquí deberías obtener las notas privadas del usuario autenticado desde tu backend o almacenamiento local
+        const notasPrivadas = await getNotas(token);
         setNotas([...obtenerNotasPublicas(), ...notasPrivadas]);
       } else {
         const notasPublicas = obtenerNotasPublicas();
@@ -32,7 +32,7 @@ function Notas() {
     };
 
     cargarNotas();
-  }, [estaAutenticado]);
+  }, [estaAutenticado, token]);
 
 
   const handleCrearNota = () => {
