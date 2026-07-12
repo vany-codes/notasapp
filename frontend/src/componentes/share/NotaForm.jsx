@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
+import { guardarNotasPublicas } from "../../utils/notas.storage";
 
 function NotaFormulario({ nota }) {
     const navegar = useNavigate();
@@ -24,6 +25,12 @@ function NotaFormulario({ nota }) {
             prioridad,
             estado: estaAutenticado ? estado : "Publico", // Doble check por seguridad
         };
+
+        // Valida si la nota es publica o privada antes de guardarla
+        if (nuevaNota.estado === "Publico") {
+            // Guardar la nota en el localStorage
+            guardarNotasPublicas(nuevaNota);
+        }
 
         console.log("Nota guardada:", nuevaNota);
         navegar("/notas");

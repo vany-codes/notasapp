@@ -9,14 +9,31 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { obtenerNotasPublicas } from "../utils/notas.storage";
 
 function Notas() {
   const navegar = useNavigate();
-  const { usuario } = useContext(AuthContext);
+  const { usuario, estaAutenticado } = useContext(AuthContext);
+  const [notas, setNotas] = useState([]);
 
-  //const usuario = obtenerSesionUsuario();
-  const notas = [] //obtenerNNotas(usuario);
+  useEffect(() => {
+    // Obtener las notas públicas del almacenamiento local
+    const cargarNotas = async () => {
+      if (estaAutenticado) {
+
+        // Si el usuario esta autenticado, carga todas las notas (públicas y privadas), de momento slo simulara con await new Promise((resolve) => setTimeout(resolve, 500)); // Simula una llamada a la API
+        const notasPrivadas = []; // Aquí deberías obtener las notas privadas del usuario autenticado desde tu backend o almacenamiento local
+        setNotas([...obtenerNotasPublicas(), ...notasPrivadas]);
+      } else {
+        const notasPublicas = obtenerNotasPublicas();
+        setNotas(notasPublicas);
+      }
+    };
+
+    cargarNotas();
+  }, [estaAutenticado]);
+
 
   const handleCrearNota = () => {
     // Navegar a la página de creación de nota
