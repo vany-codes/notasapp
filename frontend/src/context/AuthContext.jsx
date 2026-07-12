@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { eliminarToken, guardarToken } from "../utils/storage";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
@@ -12,11 +13,13 @@ export const AuthProvider = ({ children }) => {
     const login = (usuario, token) => { // Esta función se llamará cuando el usuario inicie sesión correctamente
         setUsuario(usuario);
         setToken(token);
+        guardarToken(token); // Guardar el token en el almacenamiento local del navegador
     };
     
     const logout = () => { // Esta función se llamará cuando el usuario cierre sesión
         setUsuario(null);
         setToken(null);
+        eliminarToken(); // Eliminar el token del almacenamiento local del navegador
     };
 
     // El doble signo de admiración (!!) convierte cualquier valor en un booleano:

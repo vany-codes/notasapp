@@ -1,6 +1,4 @@
 import { useContext, useState } from "react";
-import { obtenerSesionUsuario } from "../../data/usuario.local";
-import { crearNota } from "../../data/notas.local";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -26,9 +24,6 @@ function NotaFormulario({ nota }) {
             prioridad,
             estado: estaAutenticado ? estado : "Publico", // Doble check por seguridad
         };
-
-        const usuario = obtenerSesionUsuario();
-        crearNota(nuevaNota, usuario);
 
         console.log("Nota guardada:", nuevaNota);
         navegar("/notas");

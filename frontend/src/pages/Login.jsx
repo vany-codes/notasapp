@@ -4,7 +4,6 @@ import { useContext, useState } from "react";
 import LabelForm from "../componentes/share/LabelForm";
 import InputForm from "../componentes/share/InputForm";
 import { Navigate, useNavigate } from "react-router";
-import { loginUsuario } from "../data/usuario.local";
 import { validateEmail } from "../utils/validators";
 import { postLogin } from "../services/user.service";
 import { AuthContext } from "../context/AuthContext";

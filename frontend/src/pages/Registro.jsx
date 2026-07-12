@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import LabelForm from "../componentes/share/LabelForm";
 import InputForm from "../componentes/share/InputForm";
-import { crearUsuario } from "../data/usuario.local";
 import { validateEmail } from "../utils/validators";
 import { postUser } from "../services/user.service";
 
@@ -50,9 +49,6 @@ function Registro() {
                 correo_electronico: correo_electronico.trim().toLowerCase(),
                 contrasena: contrasena.trim(),
             };
-
-            //  console.log("Usuario registrado:", nuevoUsuario);
-            //  crearUsuario(nuevoUsuario);
 
             const respuesta = await postUser(nuevoUsuario);
 
