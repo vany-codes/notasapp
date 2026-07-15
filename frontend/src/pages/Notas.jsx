@@ -39,6 +39,14 @@ function Notas() {
     // Navegar a la página de creación de nota
     navegar("/crear-nota");
   }
+
+  const handleEliminarNota = (id) => {
+    if (window.confirm("¿Estás seguro de que deseas eliminar esta nota?")) {
+      // Lógica para eliminar la nota con el id proporcionado
+      // Aquí puedes llamar a una función que elimine la nota del almacenamiento o de la base de datos
+      console.log(`Eliminar nota con id: ${id}`);
+    }
+  }
   
   const colorPrioridad = {
     Alta: "bg-red-500/20 text-red-400",
