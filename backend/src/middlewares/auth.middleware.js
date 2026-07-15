@@ -18,7 +18,15 @@ const verifyToken = (req, res, next) => {
         req.user = decoded; // Almacena la información decodificada del usuario en la solicitud para su uso posterior
         next(); // Llama a la siguiente función de middleware o ruta
     } catch (error) {
-        return res.status(403).json({ message: "Token inválido" });
+        // console.error(error.name, error.message); // Imprime el nombre y mensaje del error en la consola para depuración
+
+        if (error.name === "TokenExpiredError") { // Verifica si el error es debido a que el token ha expirado
+            return res.status(401).json({ message: "Token expirado" });
+        } else if (error.name === "JsonWebTokenError") { // Verifica si el error es debido a un token inválido
+            return res.status(401).json({ message: "Token inválido" });
+        } else {
+            return res.status(500).json({ message: "Error al verificar el token" }); // Maneja otros errores inesperados
+        }
     }
 };
 
