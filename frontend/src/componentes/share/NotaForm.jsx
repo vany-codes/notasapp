@@ -6,7 +6,9 @@ import { postNota } from "../../services/notas.service";
 
 function NotaFormulario({ nota }) {
     const navegar = useNavigate();
-    const { estaAutenticado, token } = useContext(AuthContext);
+    const [error, setError] = useState("");
+    const { estaAutenticado, token, logout } = useContext(AuthContext);
+
 
     // Inicializamos el estado directamente con los datos de la nota (si existen)
     const [titulo, setTitulo] = useState(nota?.titulo || "");
@@ -35,21 +37,32 @@ function NotaFormulario({ nota }) {
             } else {
                 guardarNotasPublicas(nuevaNota);
             }
-        navegar("/notas");
+            navegar("/notas");
 
-        } catch (error) {
-            console.error("Error al guardar la nota:", error);
+        } catch (err) {
+            // setError(err.response?.data?.message || "Error al guardar la nota. Por favor, inténtalo de nuevo.");
+            if (err.response?.data?.message) {
+                setError("Sesión expirada. Por favor, inicia sesión nuevamente.");
+                console.error(`Error al guardar la nota: ${err.response.data.message}`);
+                logout();
+            } else {
+                console.error("Error al guardar la nota. Por favor, inténtalo de nuevo.");
+            }
         }
-
-        console.log("Nota guardada:", nuevaNota);
-    };
-
+    }; // Cierra handleSubmit correctamente
     const handleCancelar = () => {
         navegar("/notas"); // Es más amigable devolver al usuario a la lista
     };
 
     return (
         <div className="w-full max-w-2xl mx-auto bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-3xl shadow-2xl p-8">
+            {/* Error */}
+            
+                {error && (
+                    <div className="mb-6 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+                        ⚠ {error}
+                    </div>
+                )}
             <h2 className="text-3xl font-black text-white mb-2">
                 {nota ? "Editar nota" : "Nueva nota"}
             </h2>
