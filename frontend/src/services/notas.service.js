@@ -18,4 +18,13 @@ const getNotas = async (token) => {
     return respuesta.data;
 };
 
-export { postNota, getNotas };
+const deleteNota = async (id, token) => {
+    const respuesta = await api.delete(`notas/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return respuesta.data;
+};
+
+export { postNota, getNotas, deleteNota };

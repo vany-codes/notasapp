@@ -7,16 +7,19 @@ import {
   Globe,
   Lock,
 } from "lucide-react";
+import ModalDelet from "../componentes/ModalDelet";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import { useContext, useEffect, useState } from "react";
-import { obtenerNotasPublicas } from "../utils/notas.storage";
-import { getNotas } from "../services/notas.service";
+import { eliminarNotasPublicas, obtenerNotasPublicas } from "../utils/notas.storage";
+import { deleteNota, getNotas } from "../services/notas.service";
 
 function Notas() {
   const navegar = useNavigate();
   const { usuario, estaAutenticado, token } = useContext(AuthContext);
   const [notas, setNotas] = useState([]);
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [notaSeleccionada, setNotaSeleccionada] = useState(null);
 
   useEffect(() => {
     // Obtener las notas públicas del almacenamiento local
@@ -25,9 +28,11 @@ function Notas() {
 
         const notasPrivadas = await getNotas(token);
         setNotas([...obtenerNotasPublicas(), ...notasPrivadas]);
+        console.log("Notas privadas y publicas");
       } else {
         const notasPublicas = obtenerNotasPublicas();
         setNotas(notasPublicas);
+        console.log("Notas publicas");
       }
     };
 
@@ -40,13 +45,46 @@ function Notas() {
     navegar("/crear-nota");
   }
 
-  const handleEliminarNota = (id) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar esta nota?")) {
-      // Lógica para eliminar la nota con el id proporcionado
-      // Aquí puedes llamar a una función que elimine la nota del almacenamiento o de la base de datos
-      console.log(`Eliminar nota con id: ${id}`);
+  const handleEliminarNota = (nota) => {
+    setNotaSeleccionada(nota);
+    setMostrarModal(true);
+  };
+  const confirmarEliminar = async (nota) => {
+  console.log("Eliminar nota:", nota.id, nota.estado);
+
+  try {
+    if (nota.estado === "Privado" && estaAutenticado) {
+      const respuesta = await deleteNota(nota.id, token);
+      console.log("Respuesta eliminación:", respuesta);
+    } else if (nota.estado === "Publico") {
+      eliminarNotasPublicas(nota.id);
+      console.log("Nota pública eliminada:", nota.id);
+    }
+
+    // Actualizar la lista en pantalla
+    setNotas((prevNotas) =>
+      prevNotas.filter((n) => n.id !== nota.id)
+    );
+
+    setMostrarModal(false);
+    setNotaSeleccionada(null);
+
+  } catch (err) {
+    console.error("Error completo:", err);
+
+    if (err.response?.data?.errors) {
+      console.error(
+        "Error del backend:",
+        err.response.data.errors[0].mensaje
+      );
+    } else {
+      console.error(
+        "Error del backend:",
+        err.response?.data?.message || err.message
+      );
     }
   }
+};
   
   const colorPrioridad = {
     Alta: "bg-red-500/20 text-red-400",
@@ -60,7 +98,15 @@ function Notas() {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-6 py-10">
+    <>
+      {mostrarModal && (
+        <ModalDelet
+          nota={notaSeleccionada}
+          onClose={() => setMostrarModal(false)}
+          onDelete={confirmarEliminar}
+        />
+      )}
+      <div className="w-full max-w-6xl mx-auto px-6 py-10">
       {/* Encabezado */}
       <section className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-5">
         <div>
@@ -102,6 +148,7 @@ function Notas() {
                 <button
                   className=" p-2 rounded-xl hover:bg-red-500/20 text-gray-400 hover:text-red-400 "
                   title="Eliminar"
+                  onClick={() => handleEliminarNota(nota)}
                 >
                   <Trash2 size={18} />
                 </button>
@@ -149,6 +196,7 @@ function Notas() {
         ))}
       </section>
     </div>
+    </>
   );
 }
 
