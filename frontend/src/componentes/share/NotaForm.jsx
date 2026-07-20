@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
-import { guardarNotasPublicas } from "../../utils/notas.storage";
-import { postNota } from "../../services/notas.service";
+// import { guardarNotasPublicas } from "../../utils/notas.storage";
+// import { postNota } from "../../services/notas.service";
 
-function NotaFormulario({ nota, onClose, onSave }) {
-    const navegar = useNavigate();
-    const [error, setError] = useState("");
-    const { estaAutenticado, token, logout } = useContext(AuthContext);
+function NotaFormulario({ nota }) {
+    //  const navegar = useNavigate();
+    //  const [error, setError] = useState("");
+    const { estaAutenticado } = useContext(AuthContext);
 
 
     // Inicializamos el estado directamente con los datos de la nota (si existen)
@@ -18,7 +18,7 @@ function NotaFormulario({ nota, onClose, onSave }) {
     // Si no está autenticado, el estado por defecto SIEMPRE debe ser Publico
     const [estado, setEstado] = useState(nota?.estado || "Publico");
 
-    const handleSubmit = async (e) => {
+    /*const handleSubmit = async (e) => {
         e.preventDefault();
 
         const nuevaNota = {
@@ -49,20 +49,17 @@ function NotaFormulario({ nota, onClose, onSave }) {
                 console.error("Error al guardar la nota. Por favor, inténtalo de nuevo.");
             }
         }
-    }; // Cierra handleSubmit correctamente
-    const handleCancelar = () => {
-        navegar("/notas"); // Es más amigable devolver al usuario a la lista
-    };
+    };*/
 
     return (
         <div className="w-full max-w-2xl mx-auto bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-3xl shadow-2xl p-8">
             {/* Error */}
             
-                {error && (
+            {/*    {error && (
                     <div className="mb-6 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
                         ⚠ {error}
                     </div>
-                )}
+                )}*/}
             <h2 className="text-3xl font-black text-white mb-2">
                 {nota ? "Editar nota" : "Nueva nota"}
             </h2>
@@ -71,7 +68,7 @@ function NotaFormulario({ nota, onClose, onSave }) {
                 {nota ? "Modifica la información de tu nota." : "Completa la información de tu nota."}
             </p>
 
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-6" /*onSubmit={handleSubmit}*/>
                 {/* Título */}
                 <div>
                     <label htmlFor="titulo" className="block text-sm font-semibold text-gray-300 mb-2">
@@ -139,24 +136,6 @@ function NotaFormulario({ nota, onClose, onSave }) {
                             {estaAutenticado && <option value="Privado">🔒 Privado</option>}
                         </select>
                     </div>
-                </div>
-
-                {/* Botones */}
-                <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
-                    <button
-                        type="button"
-                        onClick={handleCancelar}
-                        className="px-6 py-3 rounded-2xl border border-gray-600 text-gray-300 hover:bg-gray-700 transition cursor-pointer"
-                    >
-                        Cancelar
-                    </button>
-
-                    <button
-                        type="submit"
-                        className="px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg transition hover:scale-105 cursor-pointer"
-                    >
-                        {nota ? "Guardar cambios" : "Guardar nota"}
-                    </button>
                 </div>
             </form>
         </div>
