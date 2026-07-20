@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { guardarNotasPublicas } from "../../utils/notas.storage";
 import { postNota } from "../../services/notas.service";
 
-function NotaFormulario({ nota }) {
+function NotaFormulario({ nota, onClose, onSave }) {
     const navegar = useNavigate();
     const [error, setError] = useState("");
     const { estaAutenticado, token, logout } = useContext(AuthContext);

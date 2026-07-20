@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import ModalDelet from "../componentes/ModalDelet";
 import { useNavigate } from "react-router";
+import ModalEdit from "../componentes/ModalEdit";
 import { AuthContext } from "../context/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import { eliminarNotasPublicas, obtenerNotasPublicas } from "../utils/notas.storage";
@@ -19,6 +20,7 @@ function Notas() {
   const { usuario, estaAutenticado, token } = useContext(AuthContext);
   const [notas, setNotas] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [mostrarModalEdit, setMostrarModalEdit] = useState(false);
   const [notaSeleccionada, setNotaSeleccionada] = useState(null);
 
   useEffect(() => {
@@ -106,6 +108,12 @@ function Notas() {
           onDelete={confirmarEliminar}
         />
       )}
+      {mostrarModalEdit && (
+        <ModalEdit
+          nota={notaSeleccionada}
+          onClose={() => setMostrarModalEdit(false)}
+        />
+      )}
       <div className="w-full max-w-6xl mx-auto px-6 py-10">
       {/* Encabezado */}
       <section className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-5">
@@ -141,6 +149,10 @@ function Notas() {
                 <button
                   className=" p-2 rounded-xl hover:bg-blue-500/20 text-gray-400 hover:text-blue-400 transition"
                   title="Editar"
+                  onClick={() => {
+                    setNotaSeleccionada(nota);
+                    setMostrarModalEdit(true);
+                  }}
                 >
                   <Pencil size={18} />
                 </button>
