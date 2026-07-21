@@ -3,9 +3,9 @@ import './App.css'
 import Layout from './componentes/Layout'
 import Notas from './pages/Notas'
 import Inicio from './pages/Inicio'
-import NotaFormulario from './componentes/share/NotaForm'
 import Registro from './pages/Registro'
 import Login from './pages/Login'
+import Nota from './pages/Nota'
 
 function App() {
 
@@ -17,7 +17,7 @@ function App() {
           <Route index element={<Inicio />} />
           <Route path="/inicio" element={<Inicio />} />
           <Route path="/notas" element={<Notas />} />
-          <Route path='/crear-nota' element={<NotaFormulario />} />
+          <Route path='/crear-nota' element={<Nota />} />
           <Route path='/registro' element={<Registro />} />
           <Route path='/login' element={<Login />} />
         </Route>

@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 // import { guardarNotasPublicas } from "../../utils/notas.storage";
 // import { postNota } from "../../services/notas.service";
 
-function NotaFormulario({ nota }) {
+function NotaFormulario({ nota, onSave, onClose }) {
     //  const navegar = useNavigate();
     //  const [error, setError] = useState("");
     const { estaAutenticado } = useContext(AuthContext);
@@ -17,7 +17,23 @@ function NotaFormulario({ nota }) {
     
     // Si no está autenticado, el estado por defecto SIEMPRE debe ser Publico
     const [estado, setEstado] = useState(nota?.estado || "Publico");
-
+    const handleGuardar = (e) => {
+        e.preventDefault();
+        const nuevaNota = {
+            ...(nota && { id: nota.id }),
+            titulo,
+            contenido,
+            prioridad,
+            estado: estaAutenticado ? estado : "Publico", // Doble check por seguridad
+        };
+        onSave(nuevaNota);
+    }
+    const handleCancelar = () => {
+        if (onClose) {
+            onClose();
+            return;
+        }
+     }
     /*const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -136,6 +152,24 @@ function NotaFormulario({ nota }) {
                             {estaAutenticado && <option value="Privado">🔒 Privado</option>}
                         </select>
                     </div>
+                </div>
+                {/* Botones */}
+                <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
+                    <button
+                        type="button"
+                        className="px-6 py-3 rounded-2xl border border-gray-600 text-gray-300 hover:bg-gray-700 transition cursor-pointer"
+                        onClick={handleCancelar}
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        onClick={handleGuardar}
+                        className="px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg transition hover:scale-105 cursor-pointer"
+                    >
+                        {nota ? "Guardar cambios" : "Guardar nota"}
+                    </button>
                 </div>
             </form>
         </div>
