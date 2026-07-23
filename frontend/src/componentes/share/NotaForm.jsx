@@ -1,11 +1,9 @@
 import { useContext, useState } from "react";
-// import { useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
 // import { guardarNotasPublicas } from "../../utils/notas.storage";
 // import { postNota } from "../../services/notas.service";
 
-function NotaFormulario({ nota, onSave, onClose }) {
-    //  const navegar = useNavigate();
+function NotaFormulario({ nota, onSave, onClose, error }) {
     //  const [error, setError] = useState("");
     const { estaAutenticado } = useContext(AuthContext);
 
@@ -17,7 +15,14 @@ function NotaFormulario({ nota, onSave, onClose }) {
     
     // Si no está autenticado, el estado por defecto SIEMPRE debe ser Publico
     const [estado, setEstado] = useState(nota?.estado || "Publico");
-    const handleGuardar = (e) => {
+    
+    const handleCancelar = () => {
+        if (onClose) {
+            onClose();
+            return;
+        }
+     }
+     const handleGuardar = (e) => {
         e.preventDefault();
         const nuevaNota = {
             ...(nota && { id: nota.id }),
@@ -26,13 +31,11 @@ function NotaFormulario({ nota, onSave, onClose }) {
             prioridad,
             estado: estaAutenticado ? estado : "Publico", // Doble check por seguridad
         };
-        onSave(nuevaNota);
-    }
-    const handleCancelar = () => {
-        if (onClose) {
-            onClose();
-            return;
+
+        if (onSave) {
+            onSave(nuevaNota);
         }
+        return nuevaNota;
      }
     /*const handleSubmit = async (e) => {
         e.preventDefault();
@@ -70,12 +73,11 @@ function NotaFormulario({ nota, onSave, onClose }) {
     return (
         <div className="w-full max-w-2xl mx-auto bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-3xl shadow-2xl p-8">
             {/* Error */}
-            
-            {/*    {error && (
-                    <div className="mb-6 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-                        ⚠ {error}
-                    </div>
-                )}*/}
+            {error && (
+                <div className="mb-6 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+                    ⚠ {error}
+                </div>
+            )}
             <h2 className="text-3xl font-black text-white mb-2">
                 {nota ? "Editar nota" : "Nueva nota"}
             </h2>
