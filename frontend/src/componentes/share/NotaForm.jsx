@@ -1,12 +1,8 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-// import { guardarNotasPublicas } from "../../utils/notas.storage";
-// import { postNota } from "../../services/notas.service";
 
 function NotaFormulario({ nota, onSave, onClose, error }) {
-    //  const [error, setError] = useState("");
     const { estaAutenticado } = useContext(AuthContext);
-
 
     // Inicializamos el estado directamente con los datos de la nota (si existen)
     const [titulo, setTitulo] = useState(nota?.titulo || "");
@@ -37,38 +33,6 @@ function NotaFormulario({ nota, onSave, onClose, error }) {
         }
         return nuevaNota;
      }
-    /*const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const nuevaNota = {
-            ...(nota && { id: nota.id }),
-            titulo,
-            contenido,
-            prioridad,
-            estado: estaAutenticado ? estado : "Publico", // Doble check por seguridad
-        };
-
-        try {
-            // Valida si el usuario está autenticado y si intenta guardar una nota privada, para mandarla al backend
-            if (nuevaNota.estado === "Privado" && estaAutenticado) {
-                const respuesta = await postNota(nuevaNota, token);
-                console.log("Nota guardada en el backend:", respuesta);
-            } else {
-                guardarNotasPublicas(nuevaNota);
-            }
-            navegar("/notas");
-
-        } catch (err) {
-            // setError(err.response?.data?.message || "Error al guardar la nota. Por favor, inténtalo de nuevo.");
-            if (err.response?.data?.message) {
-                setError("Sesión expirada. Por favor, inicia sesión nuevamente.");
-                console.error(`Error al guardar la nota: ${err.response.data.message}`);
-                logout();
-            } else {
-                console.error("Error al guardar la nota. Por favor, inténtalo de nuevo.");
-            }
-        }
-    };*/
 
     return (
         <div className="w-full max-w-2xl mx-auto bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-3xl shadow-2xl p-8">
@@ -86,7 +50,7 @@ function NotaFormulario({ nota, onSave, onClose, error }) {
                 {nota ? "Modifica la información de tu nota." : "Completa la información de tu nota."}
             </p>
 
-            <form className="space-y-6" /*onSubmit={handleSubmit}*/>
+            <form className="space-y-6">
                 {/* Título */}
                 <div>
                     <label htmlFor="titulo" className="block text-sm font-semibold text-gray-300 mb-2">
